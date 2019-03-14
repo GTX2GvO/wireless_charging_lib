@@ -1,0 +1,30 @@
+wireless-charging-lib 0.2.6
+===============================================================================
+CHANGES
+* Updated for 0.17 by GTX2GvO
+
+wireless-charging-lib 0.2.5
+===============================================================================
+FIXES
+* "Error while running event on_player_placed_equipment (ID 38) LuaEntity API call when LuaEntity was invalid." in multiplayer.
+
+wireless-charging-lib 0.2.4
+===============================================================================
+FIXES
+* "Error while running event on_robot_pre_mined (ID 15) wireless-charging-lib/src/main.lua:490: attempt to index field '?' (a nil value)"
+
+wireless-charging-lib 0.2.3
+===============================================================================
+FIXES
+* "LuaEntity API call when LuaEntity was invalid. stack traceback: wireless-charging-lib/src/main.lua:496: in function 'on_entity_removed'." when loading a multiplayer game
+
+wireless-charging-lib 0.2.2
+===============================================================================
+FIXES
+* "Error while running the on_load: LuaEntity API call when LuaEntity was invalid." in rebulid_cached()
+
+wireless-charging-lib 0.2.1
+===============================================================================
+CHANGES
+* Validation scripts now run anytime the mod configuration changes
+* Add homepage field to info.json
