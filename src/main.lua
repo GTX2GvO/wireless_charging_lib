@@ -367,7 +367,7 @@ start_charging = function(entity)
       previous[i] = induction_entities[previous[i]]
     end
     if(#previous > 0) then
-      game.raise_event(events.on_charging_stopped, {
+      script.raise_event(events.on_charging_stopped, {
         entity = entity,
         grid = global.grids[unit],
         charging_entities = previous,
@@ -376,7 +376,7 @@ start_charging = function(entity)
     if(#chargers > 0) then
       global.charging_vehicles[unit] = chargers
       --
-      game.raise_event(events.on_charging_started, {
+      script.raise_event(events.on_charging_started, {
         entity = entity,
         grid = global.grids[unit],
         charging_entities = charging_entities,
@@ -399,7 +399,7 @@ stop_charging = function(entity, unit)
     end
     global.charging_vehicles[unit] = nil
     --
-    game.raise_event(events.on_charging_stopped, {
+    script.raise_event(events.on_charging_stopped, {
       entity = entity,
       grid = global.grids[unit],
       charging_entities = entities,
@@ -486,7 +486,7 @@ on_inductor_removed = function(entity)
         end
         if(erase_first_from_array(chargers, unit) and #chargers == 0) then
           global.charging_vehicles[vehicle_unit] = nil
-          game.raise_event(events.on_charging_stopped, {
+          script.raise_event(events.on_charging_stopped, {
             entity = entity,
             grid = global.grids[unit],
             charging_entities = entities,
@@ -622,6 +622,10 @@ function register_inductor_equipment(data)
 end
 
 function register_inductor_entity(data)
+  if(string.find(data.interface_name, "-interface") == false) then
+    data.interface_name = data.interface_name.."-interface"
+  end
+
   assert(type(data.name) == "string", "'name' must be a string")
   assert(game.entity_prototypes[data.name], string.format("%s is not a valid entity prototype", data.name))
   assert(type(data.interface_name) == "string", "'interface_name' must be a string")
