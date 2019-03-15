@@ -622,10 +622,6 @@ function register_inductor_equipment(data)
 end
 
 function register_inductor_entity(data)
-  if(string.find(data.interface_name, "-interface") == false) then
-    data.interface_name = data.interface_name.."-interface"
-  end
-
   assert(type(data.name) == "string", "'name' must be a string")
   assert(game.entity_prototypes[data.name], string.format("%s is not a valid entity prototype", data.name))
   assert(type(data.interface_name) == "string", "'interface_name' must be a string")
