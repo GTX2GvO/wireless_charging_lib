@@ -22,7 +22,7 @@ FIXES
 wireless-charging-lib 0.2.2
 ===============================================================================
 FIXES
-* "Error while running the on_load: LuaEntity API call when LuaEntity was invalid." in rebulid_cached()
+* "Error while running the on_load: LuaEntity API call when LuaEntity was invalid." in rebuild_caches()
 
 wireless-charging-lib 0.2.1
 ===============================================================================
