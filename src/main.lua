@@ -212,17 +212,18 @@ function update_equipment(unit, grid)
   local inductors = read_equipment(grid)
   
   local entity = global.entities[unit]
+  if(not entity.valid) then
+    return;
+  end
   cache_equipment(unit, inductors)
 
   if(#inductors > 0) then
     if(train_types[entity.type]) then
       handle_train_state_change(entity.train)
     else
-      
       tracked_entities[unit] = (tracked_entities[unit] or (game.tick + math.random(60)))
     end
   else
-    
     tracked_entities[unit] = nil
     stop_charging(entity, unit)
   end
