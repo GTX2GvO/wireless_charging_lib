@@ -568,7 +568,7 @@ function on_player_removed_equipment(event)
   end
 end
 
-function on_preplayer_mined_item(event)
+function on_pre_player_mined_item(event)
   on_entity_removed(event.entity)
 end
 
