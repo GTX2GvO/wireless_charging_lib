@@ -588,7 +588,8 @@ function on_tick(event)
     tracking_tick()
     charge_tick()
   end
-  
+
+  rebuild_caches();
   -- Remove entities that were invalid in on_load
   for _, unit in pairs(invalid_entities) do
     remove_invalid_unit(unit)
