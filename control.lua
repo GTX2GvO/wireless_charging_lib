@@ -39,7 +39,7 @@ local function on_init()
 end
 
 local function on_load()
-  rebuild_caches()
+  --rebuild_caches()
 end
 
 local function on_configuration_changed(data)

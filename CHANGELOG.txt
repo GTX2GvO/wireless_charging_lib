@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.17.4
+Date: N/A
+  FIXES:
+    - Fixed issue #8: update_equipment: API call on invalid LuaEntity: check entity.valid
+    - Fixed issue #4: multiplayer desyncs: restructure on_tick processing
+    - Fixed issue #2 and #3: deconstructing items: restored on_pre_player_mined_item event
+---------------------------------------------------------------------------------------------------
 Version: 0.17.3
 Date: N/A
   CHANGES:
