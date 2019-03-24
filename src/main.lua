@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 local abs = math.abs
 local floor = math.floor
 local max = math.max
@@ -82,7 +72,7 @@ local interface_to_unit = { }
 -- Dictionary mapping energy interface unit numbers to charger entity unit number
 -- [interface-index] = unit-number
 local unit_to_interface = { }
--- Dictionary of entities which have induction plates installed and are perioodically checked to be above chargers if stationary. This is needed since we don't get moving/stopped events for cars or players, only trains.
+-- Dictionary of entities which have induction plates installed and are periodically checked to be above chargers if stationary. This is needed since we don't get moving/stopped events for cars or players, only trains.
 -- [unit] = tick
 local tracked_entities = { }
 
@@ -95,13 +85,21 @@ function rebuild_caches()
   unit_to_interface = { }
   tracked_entities = { }
   invalid_entities = { }
-  
+
+  local initial_tick_offset = 2;
+  local tick_offset = initial_tick_offset;
+  local game_tick = game.tick;
+
   for unit, grid in pairs(global.grids) do
     local entity = global.entities[unit]
     if(entity.valid and grid.valid) then
       cache_equipment(unit, read_equipment(grid))
       if(tracked_types[entity.type] and inductors_for_unit[unit]) then
-        tracked_entities[unit] = 0 -- Real tick is set in first on_tick
+        tracked_entities[unit] = tick_offset
+        tick_offset = tick_offset + 1;
+        if(tick_offset > 60) then
+          tick_offset = initial_tick_offset;
+        end
       end
     else
       invalid_entities[#invalid_entities + 1] = unit
@@ -217,11 +215,13 @@ function update_equipment(unit, grid)
   end
   cache_equipment(unit, inductors)
 
+  local tick_offset = 5;
+
   if(#inductors > 0) then
     if(train_types[entity.type]) then
       handle_train_state_change(entity.train)
     else
-      tracked_entities[unit] = (tracked_entities[unit] or (game.tick + math.random(60)))
+      tracked_entities[unit] = (tracked_entities[unit] or (tick_offset))
     end
   else
     tracked_entities[unit] = nil
@@ -284,9 +284,9 @@ tracking_tick = function()
   for unit, tick in pairs(tracked_entities) do
     local entity = entities[unit]
     if(entity.valid) then
-      if(tick == game_tick) then
+      if(game_tick % tick == 0) then
         start_charging(entity)
-        tracked_entities[unit] = tick + 30
+        --tracked_entities[unit] = tick + 30
       end
     else
       stop_charging(entity, unit)
@@ -595,14 +595,7 @@ function on_tick(event)
     remove_invalid_unit(unit)
   end
   invalid_entities = { }
-  
-  -- If this is the first tick offset the electric cars table entries so we don't check all cars on the same tick.
-  -- Cannot do this in on_load because there "game" is nil.
-  local game_tick = game.tick
-  for unit in pairs(tracked_entities) do
-    tracked_entities[unit] = game_tick + math.random(60)
-  end
-  script.on_event(defines.events.on_tick, real_on_tick)
+  real_on_tick();
 end
 
 function on_train_changed_state(event)
