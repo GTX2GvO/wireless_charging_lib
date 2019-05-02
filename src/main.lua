@@ -9,7 +9,7 @@ local chargable_types =
   ["locomotive"] = true,
   ["cargo-wagon"] = true, -- Even though cargo wagons can't drive they can hold induction plates to charge their equipment
   ["car"] = true,
-  ["player"] = true,
+  ["character"] = true,
 }
 local train_types =
 {
@@ -20,14 +20,14 @@ local train_types =
 local tracked_types =
 {
   ["car"] = true,
-  ["player"] = true,
+  ["character"] = true,
 }
 local search_radius =
 {
   ["car"] = 1,
   ["locomotive"] = 3,
   ["cargo-wagon"] = 3,
-  ["player"] = 0.5,
+  ["character"] = 0.5,
 }
 
 -- Local function prototypes
@@ -234,7 +234,7 @@ check_player_armor = function(player_index)
   if(player.connected) then
     local entity = player.character
     if(entity) then
-      local item = player.get_inventory(defines.inventory.player_armor)[1]
+      local item = player.get_inventory(defines.inventory.character_armor)[1]
       local grid = item.valid_for_read and item.grid
       if(grid) then
         local unit = entity.unit_number
@@ -337,7 +337,7 @@ start_charging = function(entity)
     end
     local entities = { }
     -- Skip the narrow phase for players because they have such a tiny collision box
-    if(entity.type == "player") then
+    if(entity.type == "character") then
       for i, candidate in pairs(candidates) do
         entities[#entities + 1] = candidate
       end
